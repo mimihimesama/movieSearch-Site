@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="src/main.js" type="module"></script>
+  </head>
+
+  <body>
+    <!-- Logo -->
+    <header></header>
+    <section class="title">
+      <h1>Top Rated Movies</h1>
+      <label>Search Movie by its title </label>
+      <form class="search">
+        <!-- onsubmit="handleSearch(event)" -->
+        <input
+          type="text"
+          id="search-input"
+          placeholder="검색할 영화 제목을 입력해주세요."
+          autofocus
+        />
+        <button type="submit" id="search-btn">검색</button>
+      </form>
+    </section>
+    <!-- card list -->
+    <section class="movie-wrap"></section>
+  </body>
+</html>
