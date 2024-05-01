@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie</title>
+    <link rel="stylesheet" href="sub.css" />
+    <script src="/src/sub.js"></script>
+  </head>
+  <body>
+    <header>
+      <!-- 뒤로가기 -->
+      <a href="index.html">
+        <span class="header-text">👈 홈으로 돌아가기</span>
+      </a>
+    </header>
+
+    <!-- 상세 페이지 내부 -->
+    <section class="square">
+      <!-- 영화 소개란 -->
+      <section id="movie-info"></section>
+
+      <!-- 등록된 리뷰 목록 -->
+      <section id="review"></section>
+
+      <!-- 리뷰 등록 -->
+      <div class="submit">
+        <!-- 리뷰 텍스트창, 닉네임 텍스트창, 비밀번호 텍스트창, 등록 버튼 -->
+        <textarea autocomplete="off" name="comment" id="write-comment" cols="auto" rows="4"></textarea>
+        <div class="submit-btns">
+          <input type="text" class="comment-name" id="comment-name" placeholder="닉네임 입력" maxlength="15"/>
+          <input type="password" class="comment-pw" id="comment-pw" placeholder="비밀번호 입력" maxlength="15"/>
+          <button type="submit" id="submit-btn">등록</button>
+      </div>
+    </section>
+  </body>
+</html>
