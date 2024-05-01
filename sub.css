@@ -1,1 +1,105 @@
-/* 후추 */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap");
+
+body {
+  background-color: #000000;
+  font-family: "Noto Sans KR", sans-serif;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+.header-text {
+  color: #ffffff;
+}
+
+.square {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  padding: 20px;
+  background-color: #fff;
+  width: 80%;
+  margin: auto;
+  max-width: 800px;
+}
+
+/* 영화 소개란 스타일 */
+#movie-info {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  border-bottom: 1px solid #ebebeb;
+}
+.movie-img {
+  height: auto;
+  max-height: 100%;
+  width: auto;
+  max-width: 30%;
+  padding: 10px 15px 20px 15px;
+}
+.movie-info {
+  flex-grow: 1;
+  padding: 10px;
+}
+.movie-title {
+  font-size: 24px;
+  padding: 20px 0px 0px 0px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  border-top: 1px solid #999;
+}
+.movie-detail {
+  display: flex;
+  align-items: center;
+  padding: 0px 0px 20px 0px;
+  border-bottom: 1px solid #999;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+}
+.movie-desc {
+  color: #333;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  line-height: 1.5;
+}
+
+/* 등록된 리뷰 목록과 리뷰 등록 섹션 스타일 */
+#review,
+.submit {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+}
+textarea {
+  flex: 1 0 70%;
+  font-size: 16px;
+  margin-right: 10px;
+}
+.submit-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+input[type="text"],
+input[type="password"],
+button {
+  padding: 8px;
+  font-size: 16px;
+}
+button {
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}

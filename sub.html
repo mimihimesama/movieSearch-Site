@@ -10,9 +10,8 @@
   <body>
     <header>
       <!-- 뒤로가기 -->
-      <h1 id="header-title"></h1>
       <a href="index.html">
-        <img src="img/main.png" alt="메인 페이지로 이동" />
+        <span class="header-text">👈 홈으로 돌아가기</span>
       </a>
     </header>
 
@@ -27,6 +26,11 @@
       <!-- 리뷰 등록 -->
       <div class="submit">
         <!-- 리뷰 텍스트창, 닉네임 텍스트창, 비밀번호 텍스트창, 등록 버튼 -->
+        <textarea autocomplete="off" name="comment" id="write-comment" cols="auto" rows="4"></textarea>
+        <div class="submit-btns">
+          <input type="text" class="comment-name" id="comment-name" placeholder="닉네임 입력" maxlength="15"/>
+          <input type="password" class="comment-pw" id="comment-pw" placeholder="비밀번호 입력" maxlength="15"/>
+          <button type="submit" id="submit-btn">저장</button>
       </div>
     </section>
   </body>
