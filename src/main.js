@@ -5,13 +5,10 @@ export const loadmovies = async () => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YjI1MWMwYjcyOWM5ZDI2OTZlMDZjNGQ0YTM4OWI2ZSIsInN1YiI6IjY2MmIyZDE1NmUwZDcyMDExYzFmN2JmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GiFFRR5tmGJ2LoaVoS2ub_xksPO2gGRNSHX4rcPdJUI",
-    },
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YjI1MWMwYjcyOWM5ZDI2OTZlMDZjNGQ0YTM4OWI2ZSIsInN1YiI6IjY2MmIyZDE1NmUwZDcyMDExYzFmN2JmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GiFFRR5tmGJ2LoaVoS2ub_xksPO2gGRNSHX4rcPdJUI"
+    }
   };
-  const response = await fetch(
-    "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
-    options
-  );
+  const response = await fetch("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
   const data = await response.json();
   //console.log(data['results']);
   return data["results"];
@@ -24,7 +21,7 @@ function displaymovies(movies) {
   onClickCard(movies);
 }
 
-// 영화 데이터 로컬에 저장
+// 영화 데이터 로컬에 저장 -> sub.js에서 해당 데이터를 로드하기 위해서
 const movieData = function (movies) {
   if (localStorage.length === 0) {
     movies.forEach((movie) => {
@@ -54,11 +51,14 @@ function createMovieCards(movie) {
   return temp_html;
 }
 
-// 카드 클릭 시 영화 ID 표시
+// 클릭 이벤트 id에 해당하는 상세 페이지로 이동하기
 const onClickCard = function (movies) {
-  document.querySelectorAll(".movie-card").forEach((card) => {
+  const cards = document.querySelectorAll(".movie-card");
+  let movieId;
+  cards.forEach((card) => {
     card.addEventListener("click", function () {
-      alert("영화 ID: " + this.id);
+      movieId = this.getAttribute("id");
+      window.location.href = `http://127.0.0.1:5502/sub.html?id=${movieId}`; // 페이지 이동
     });
   });
 };
@@ -73,9 +73,7 @@ const findTitle = function (movies) {
   if (search.length <= 0) {
     alert("검색어를 입력해주세요.");
   } else {
-    const filtermovie = movies.filter((movie) =>
-      movie.title.toLowerCase().includes(search)
-    );
+    const filtermovie = movies.filter((movie) => movie.title.toLowerCase().includes(search));
 
     if (filtermovie.length === 0) {
       alert("검색어에 해당하는 영화가 없습니다.");
