@@ -10,9 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
 /* 해당하는 영화 정보로 업데이트 */
 const displayDetail = (data) => {
   const containerDetail = document.querySelector("#movie-info");
-  let movieDetail = createMovieDetail(data.movie);
-  containerDetail.innerHTML = movieDetail;
-  changeheader(data.movie);
+  containerDetail.innerHTML = createMovieDetail(data.movie);
 };
 
 /* detail 페이지를 구성할 HTML */
