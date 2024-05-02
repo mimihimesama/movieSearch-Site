@@ -177,3 +177,21 @@ header {
   font-weight: 400;
   color: #999;
 }
+@media only screen and (max-width: 800px) {
+  /* 화면이 800px 이하일 때의 스타일 */
+  .search > input {
+    width: 300px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  /* 화면이 600px 이하일 때의 스타일 */
+  .movie-wrap {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    width: 90%;
+  }
+
+  .title > h1 {
+    font-size: 60px;
+  }
+}
