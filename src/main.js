@@ -1,17 +1,24 @@
 // movies api
 export const loadMovies = async () => {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YjI1MWMwYjcyOWM5ZDI2OTZlMDZjNGQ0YTM4OWI2ZSIsInN1YiI6IjY2MmIyZDE1NmUwZDcyMDExYzFmN2JmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GiFFRR5tmGJ2LoaVoS2ub_xksPO2gGRNSHX4rcPdJUI"
+  try {
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YjI1MWMwYjcyOWM5ZDI2OTZlMDZjNGQ0YTM4OWI2ZSIsInN1YiI6IjY2MmIyZDE1NmUwZDcyMDExYzFmN2JmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GiFFRR5tmGJ2LoaVoS2ub_xksPO2gGRNSHX4rcPdJUI"
+      }
+    };
+    const response = await fetch("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
+    if (!response.ok) {
+      throw new Error('Failed to fetch movies');
     }
-  };
-  const response = await fetch("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
-  const data = await response.json();
-   //console.log(data['results']);
-  return data["results"];
+    const data = await response.json();
+    return data["results"];
+  } catch (error) {
+    console.error('Error loading movies:', error.message);
+    throw error; // 에러 발생 시 던지기
+  }
 };
 
 // HTML UPDATE
@@ -44,6 +51,13 @@ function createMovieCard(movie) {
 
 // 클릭 이벤트 id에 해당하는 상세 페이지로 이동하기
 function setEventListeners(movies) {
+  const form = document.querySelector(".search");
+  // 검색창에 입력 수행 시
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    findTitle(movies);
+  });
+
   const cards = document.querySelectorAll(".movie-card");
   cards.forEach(card => {
     card.addEventListener("click", () => {
@@ -63,48 +77,42 @@ const findTitle = function (movies) {
   if (search.length <= 0) {
     alert("검색어를 입력해주세요.");
   } else {
-    const filtermovie = movies.filter((movie) => movie.title.toLowerCase().includes(search));
+    const filteredMovies = movies.filter((movie) => movie.title.toLowerCase().includes(search));
 
-    if (filtermovie.length === 0) {
+    if (filteredMovies.length === 0) {
       alert("검색어에 해당하는 영화가 없습니다.");
     } else {
-      displaymovies(filtermovie);
+      displayMovies(filteredMovies);
     }
   }
 };
 
-// 이벤트 관리
-function setEventListeners(movies) {
-  const form = document.querySelector(".search");
-  // 검색창에 입력 수행 시
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    findTitle(movies);
-  });
-}
-
-window.displayMovies = displaymovies;
-window.movieData = movieData;
-
 // main
 async function initializePage() {
-  const movies = await loadMovies();
-  movieData(movies); // 로컬 스토리지에 영화 데이터 저장
-  displayMovies(movies);
-  orderByCountry(movies);
-  orderByRate(movies);
-  orderBySearch(movies);
-  setupPagination(movies);
+  try {
+    const movies = await loadMovies();
+    movieData(movies); // 로컬 스토리지에 영화 데이터 저장
+    displayMovies(movies);
+    orderByCountry(movies);
+    orderByRate(movies);
+    orderBySearch(movies);
+    setupPagination(movies);
+  } catch (error) {
+    console.error('Error initializing page:', error.message);
+  }
 }
 
-let filteredMovies = []; // 전역 변수로 필터링된 영화 목록 저장
-let isAscending = false; // 평점 정렬 상태를 저장하는 전역 변수 (false는 내림차순, true는 오름차순)
+// 전역 변수로 선언된 filteredMovies와 isAscending 변경
+let filteredMovies = []; // 필터링된 영화 목록 저장
+let isAscending = false; // 평점 정렬 상태 저장하는 전역변수 (false는 내림차순, true는 오름차순)
 
 // 페이지 로드 시 모든 영화를 필터링된 목록에 초기 설정
 window.onload = function () {
-  loadmovies().then((movies) => {
+  loadMovies().then((movies) => {
     filteredMovies = movies;
     displayMovies(filteredMovies); // 초기 영화 목록을 화면에 표시
+  }).catch(error => {
+    console.error('Error loading movies on page load:', error.message);
   });
 };
 
@@ -128,17 +136,16 @@ function orderByCountry(movies) {
           return true;
       }
     });
-    sortMoviesByRate(); // 국가 변경 후 현재 평점 정렬 상태를 유지하여 정렬
-    displayMovies(filteredMovies); // 필터링된 목록을 디스플레이
+    orderByRate(filteredMovies); // 평점 정렬 함수 호출
+    displayMovies(filteredMovies);
   });
 }
 
-// 평점에 따른 영화를 정렬 , orderByRate 함수에 매개변수로 영화 목록 전달받아 정렬 // 전에 썼던 filteredMovies 는 함수 재사용이 떨어져 orderByRate 로 대체
-function orderByRate(movies) {
+ // 평점에 따른 영화를 정렬 , orderByRate 함수에 매개변수로 영화 목록 전달받아 정렬
+ function orderByRate(movies) {
   const element = document.getElementById("filter-rate");
-  let isAscending = false;
   element.addEventListener("click", () => {
-    isAscending = !isAscending;
+    isAscending = !isAscending; // 전역 변수 사용
     const sortedMovies = [...movies].sort((a, b) => (isAscending ? a.vote_average - b.vote_average : b.vote_average - a.vote_average));
     displayMovies(sortedMovies);
     toggleArrow(element);
@@ -155,18 +162,8 @@ function orderBySearch(movies) {
   const form = document.querySelector(".search");
   form.addEventListener("submit", event => {
     event.preventDefault();
-    findMoviesByTitle(movies);
+    findTitle(movies);
   });
-}
-
-// 페이지 로드 시 초기화
-async function initializePage() {
-  const movies = await loadMovies();
-  displayMovies(movies);
-  orderByCountry(movies);
-  orderByRate(movies);
-  orderBySearch(movies);
-  setupPagination(movies);
 }
 
 // 페이징 처리
@@ -212,4 +209,3 @@ function displayMoviesPaginated(movies, currentPage, itemsPerPage) {
   const moviesToDisplay = movies.slice(startIndex, endIndex);
   displayMovies(moviesToDisplay);
 }
-
