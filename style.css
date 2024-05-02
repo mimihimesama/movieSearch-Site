@@ -13,6 +13,58 @@
 a {
   text-decoration: none;
 }
+
+/* 내비게이션바 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 8px 12px;
+}
+
+/* 내비게이션바 이미지 */
+.nav-img {
+  width: 100px;
+  height: 100px;
+  margin-left: 20px;
+}
+
+.navbar-menu {
+  width: 500px;
+  margin-left: 100px;
+  margin-right: auto;
+}
+.navbar-menu li {
+  text-align: center;
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 15px;
+}
+.navbar-menu li:hover {
+  background-color: #000;
+  border-radius: 4px;
+}
+/* 내비게이션바 반응형 ui  */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 24px;
+  }
+
+  .navbar-menu {
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+  }
+
+  .navbar-menu li {
+    width: 50%;
+    text-align: center;
+  }
+}
+
 button {
   border: 0;
   outline: 0;
@@ -122,6 +174,12 @@ header {
   color: black;
 }
 
+.movie-card:hover {
+  transform: scale(0.9);
+  border-radius: 50px;
+  cursor: pointer;
+}
+
 .movie-card::after {
   content: "";
   position: absolute;
@@ -147,6 +205,9 @@ header {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 0.2px;
+  font-family: "Anton", sans-serif;
+  font-weight: bold;
+  font-style: normal;
 }
 
 .movie_overview {
