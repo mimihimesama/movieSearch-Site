@@ -40,9 +40,6 @@ function createMovieCards(movie) {
         class="movie_poster"
       />
         <h3 class="movie_title">${movie.title}</h3>
-        <p class="movie_overview">
-          ${movie.overview}
-        </p>
         <p class="movie_rate">⭐${movie.vote_average}
           <span class="movie_vote">(${movie.vote_count})</span>
         </p>

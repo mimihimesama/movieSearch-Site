@@ -19,7 +19,7 @@ const createMovieDetail = (movie) => {
       <img src="https://image.tmdb.org/t/p/w400/${movie.poster_path}" alt="영화 이미지" class="movie-img"/>
       <div class="movie-info">
         <h4 class="movie-rate">⭐ ${movie.vote_average}<span class=movie-vote> (${movie.vote_count})</span></h4>
-        <h2 class="movie-title">${movie.original_title}</h2>
+        <h2 class="movie-title">${movie.title}</h2> 
         <h4 class="movie-detail">${movie.release_date}</h4>
         <h3 class="movie-desc">${movie.overview}</h3>
       </div>`;
