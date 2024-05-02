@@ -101,8 +101,59 @@ loadmovies().then((movies) => {
   movieData(movies);
   displaymovies(movies);
   setEventListeners(movies);
-  orderByTitle(movies);
-  orderByRate(movies);
-  orderByVote(movies);
   orderByCountry(movies);
+  orderByRate(movies);
 });
+
+let filteredMovies = []; // 전역 변수로 필터링된 영화 목록 저장
+let isAscending = false; // 평점 정렬 상태를 저장하는 전역 변수 (false는 내림차순, true는 오름차순)
+
+// 페이지 로드 시 모든 영화를 필터링된 목록에 초기 설정
+window.onload = function () {
+  loadmovies().then((movies) => {
+    filteredMovies = movies;
+    displayMovies(filteredMovies); // 초기 영화 목록을 화면에 표시
+  });
+};
+
+// 나라별 정렬
+function orderByCountry(movies) {
+  const dropdown = document.getElementById("country-filter");
+
+  dropdown.addEventListener("change", function () {
+    const selectedOption = dropdown.value;
+
+    filteredMovies = movies.filter((movie) => {
+      const language = movie.original_language;
+
+      if (selectedOption === "Korea") return language === "ko";
+      if (selectedOption === "USA") return language === "en";
+      if (selectedOption === "Japan") return language === "ja";
+      if (selectedOption === "Others") return !["ko", "en", "ja"].includes(language);
+      return true;
+    });
+
+    sortMoviesByRate(); // 국가 변경 후 현재 평점 정렬 상태를 유지하여 정렬
+    displayMovies(filteredMovies); // 필터링된 목록을 디스플레이
+  });
+}
+
+// 평점에 따른 정렬
+function orderByRate() {
+  const element = document.getElementById("filter-rate");
+  element.addEventListener("click", () => {
+    isAscending = !isAscending; // 정렬 상태 토글
+    sortMoviesByRate();
+    displayMovies(filteredMovies); // 정렬된 필터링된 목록을 디스플레이
+    toggleArrow(element);
+  });
+}
+
+// 평점 정렬 함수
+function sortMoviesByRate() {
+  filteredMovies.sort((a, b) => (isAscending ? a.vote_average - b.vote_average : b.vote_average - a.vote_average));
+}
+
+function toggleArrow(element) {
+  element.textContent = element.textContent.slice(0, -1) + (element.textContent.endsWith("▲") ? "▼" : "▲");
+}

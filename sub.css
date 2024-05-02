@@ -16,6 +16,9 @@ header {
 .header-text {
   color: #ffffff;
 }
+a {
+  text-decoration: none;
+}
 
 .square {
   display: flex;
