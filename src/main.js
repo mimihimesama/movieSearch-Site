@@ -1,5 +1,5 @@
 // movies api
-export const loadmovies = async () => {
+export const loadMovies = async () => {
   const options = {
     method: "GET",
     headers: {
@@ -10,58 +10,48 @@ export const loadmovies = async () => {
   };
   const response = await fetch("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
   const data = await response.json();
-  //console.log(data['results']);
+   //console.log(data['results']);
   return data["results"];
 };
 
 // HTML UPDATE
-function displaymovies(movies) {
+function displayMovies(movies) {
   const container = document.querySelector(".movie-wrap");
-  container.innerHTML = movies.map((movie) => createMovieCards(movie)).join("");
-  onClickCard(movies);
+  container.innerHTML = movies.map(createMovieCard).join("");
+  setEventListeners(movies);
 }
 
 // 영화 데이터 로컬에 저장 -> sub.js에서 해당 데이터를 로드하기 위해서
-const movieData = function (movies) {
+function movieData(movies) {
   if (localStorage.length === 0) {
-    movies.forEach((movie) => {
+    movies.forEach(movie => {
       const mData = JSON.stringify({ movie });
       localStorage.setItem(movie.id, mData);
     });
   }
-};
+}
 
 // HTML list 만들기
-function createMovieCards(movie) {
-  let temp_html = `
-      <div class="movie-card" id="${movie.id}">
-      <img
-        src="https://image.tmdb.org/t/p/w400/${movie.poster_path}"
-        class="movie_poster"
-      />
-        <h3 class="movie_title">${movie.title}</h3>
-        <p class="movie_overview">
-          ${movie.overview}
-        </p>
-        <p class="movie_rate">⭐${movie.vote_average}
-          <span class="movie_vote">(${movie.vote_count})</span>
-        </p>
-    </div>
-            `;
-  return temp_html;
+function createMovieCard(movie) {
+  return `
+    <div class="movie-card" id="${movie.id}">
+      <img src="https://image.tmdb.org/t/p/w400/${movie.poster_path}" class="movie_poster" />
+      <h3 class="movie_title">${movie.title}</h3>
+      <p class="movie_overview">${movie.overview}</p>
+      <p class="movie_rate">⭐${movie.vote_average} <span class="movie_vote">(${movie.vote_count})</span></p>
+    </div>`;
 }
 
 // 클릭 이벤트 id에 해당하는 상세 페이지로 이동하기
-const onClickCard = function (movies) {
+function setEventListeners(movies) {
   const cards = document.querySelectorAll(".movie-card");
-  let movieId;
-  cards.forEach((card) => {
-    card.addEventListener("click", function () {
-      movieId = this.getAttribute("id");
-      window.location.href = `http://127.0.0.1:5502/sub.html?id=${movieId}`; // 페이지 이동
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      const movieId = card.getAttribute("id");
+      window.location.href = `http://127.0.0.1:5502/sub.html?id=${movieId}`;
     });
   });
-};
+}
 
 // 검색 기능 : 대소문자 관계없이, enter입력해도 검색 클릭과 동일한 기능
 const findTitle = function (movies) {
@@ -97,13 +87,15 @@ window.displayMovies = displaymovies;
 window.movieData = movieData;
 
 // main
-loadmovies().then((movies) => {
-  movieData(movies);
-  displaymovies(movies);
-  setEventListeners(movies);
+async function initializePage() {
+  const movies = await loadMovies();
+  movieData(movies); // 로컬 스토리지에 영화 데이터 저장
+  displayMovies(movies);
   orderByCountry(movies);
   orderByRate(movies);
-});
+  orderBySearch(movies);
+  setupPagination(movies);
+}
 
 let filteredMovies = []; // 전역 변수로 필터링된 영화 목록 저장
 let isAscending = false; // 평점 정렬 상태를 저장하는 전역 변수 (false는 내림차순, true는 오름차순)
@@ -119,41 +111,105 @@ window.onload = function () {
 // 나라별 정렬
 function orderByCountry(movies) {
   const dropdown = document.getElementById("country-filter");
-
-  dropdown.addEventListener("change", function () {
+  dropdown.addEventListener("change", () => {
     const selectedOption = dropdown.value;
-
-    filteredMovies = movies.filter((movie) => {
+    const filteredMovies = movies.filter(movie => {
       const language = movie.original_language;
-
-      if (selectedOption === "Korea") return language === "ko";
-      if (selectedOption === "USA") return language === "en";
-      if (selectedOption === "Japan") return language === "ja";
-      if (selectedOption === "Others") return !["ko", "en", "ja"].includes(language);
-      return true;
+      switch(selectedOption) {
+        case "Korea":
+          return language === "ko";
+        case "USA":
+          return language === "en";
+        case "Japan":
+          return language === "ja";
+        case "Others":
+          return !["ko", "en", "ja"].includes(language);
+        default:
+          return true;
+      }
     });
-
     sortMoviesByRate(); // 국가 변경 후 현재 평점 정렬 상태를 유지하여 정렬
     displayMovies(filteredMovies); // 필터링된 목록을 디스플레이
   });
 }
 
-// 평점에 따른 정렬
-function orderByRate() {
+// 평점에 따른 영화를 정렬 , orderByRate 함수에 매개변수로 영화 목록 전달받아 정렬 // 전에 썼던 filteredMovies 는 함수 재사용이 떨어져 orderByRate 로 대체
+function orderByRate(movies) {
   const element = document.getElementById("filter-rate");
+  let isAscending = false;
   element.addEventListener("click", () => {
-    isAscending = !isAscending; // 정렬 상태 토글
-    sortMoviesByRate();
-    displayMovies(filteredMovies); // 정렬된 필터링된 목록을 디스플레이
+    isAscending = !isAscending;
+    const sortedMovies = [...movies].sort((a, b) => (isAscending ? a.vote_average - b.vote_average : b.vote_average - a.vote_average));
+    displayMovies(sortedMovies);
     toggleArrow(element);
   });
 }
 
 // 평점 정렬 함수
-function sortMoviesByRate() {
-  filteredMovies.sort((a, b) => (isAscending ? a.vote_average - b.vote_average : b.vote_average - a.vote_average));
-}
-
 function toggleArrow(element) {
   element.textContent = element.textContent.slice(0, -1) + (element.textContent.endsWith("▲") ? "▼" : "▲");
 }
+
+// 검색 입력에 따라 영화를 정렬
+function orderBySearch(movies) {
+  const form = document.querySelector(".search");
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    findMoviesByTitle(movies);
+  });
+}
+
+// 페이지 로드 시 초기화
+async function initializePage() {
+  const movies = await loadMovies();
+  displayMovies(movies);
+  orderByCountry(movies);
+  orderByRate(movies);
+  orderBySearch(movies);
+  setupPagination(movies);
+}
+
+// 페이징 처리
+function setupPagination(movies) {
+  const itemsPerPage = 5; // 페이지당 영화 수
+  let currentPage = 1; // 현재 페이지
+
+  // 페이지 수 계산
+  const totalPages = Math.ceil(movies.length / itemsPerPage);
+
+  // 페이지 이동 버튼 추가
+  const paginationContainer = document.querySelector(".pagination");
+  const prevButton = document.createElement("button");
+  prevButton.textContent = "Previous";
+  const nextButton = document.createElement("button");
+  nextButton.textContent = "Next";
+  paginationContainer.appendChild(prevButton);
+  paginationContainer.appendChild(nextButton);
+
+  // 페이지 이동 버튼 이벤트 핸들러
+  prevButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      displayMoviesPaginated(movies, currentPage, itemsPerPage);
+    }
+  });
+
+  nextButton.addEventListener("click", () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      displayMoviesPaginated(movies, currentPage, itemsPerPage);
+    }
+  });
+
+  // 초기 페이지 표시
+  displayMoviesPaginated(movies, currentPage, itemsPerPage);
+}
+
+// 현재 페이지에 해당하는 영화 목록을 표시
+function displayMoviesPaginated(movies, currentPage, itemsPerPage) {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const moviesToDisplay = movies.slice(startIndex, endIndex);
+  displayMovies(moviesToDisplay);
+}
+
