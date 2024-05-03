@@ -32,14 +32,12 @@ a {
 
 .navbar-menu {
   width: 500px;
-  margin-left: 100px;
+  margin-left: 80px;
   margin-right: auto;
 }
 .navbar-menu li {
-  text-align: center;
   display: inline-block;
-  margin: 10px;
-  padding: 12px 15px;
+  margin-right: 20px;
 }
 .navbar-menu li:hover {
   background-color: #000;
