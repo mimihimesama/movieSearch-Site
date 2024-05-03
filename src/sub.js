@@ -5,6 +5,48 @@ let movie = JSON.parse(localStorage.getItem(id));
 
 window.addEventListener("DOMContentLoaded", () => {
   displayDetail(movie);
+  // 리뷰 기능
+  document.getElementById("submit-btn").addEventListener("click", function () {
+    let reviewcomment = document.getElementById("write-comment").value;
+    let id = document.getElementById("comment-name").value;
+
+    // 리뷰 요소 생성
+    const reviewElement = document.createElement("div");
+    reviewElement.classList.add("review-item");
+
+    // 리뷰 내용 작성 및 삭제
+    reviewElement.innerHTML = `
+    <p><strong>${id}</strong></p>
+    <p>${reviewcomment}</p>
+    <button class="edit-btn">수정</button> 
+    <button class="delete-btn">삭제</button> 
+  `;
+
+    // 수정 버튼 이벤트 처리
+    const editButton = reviewElement.querySelector(".edit-btn");
+    editButton.addEventListener("click", function () {
+      const newReviewComment = prompt("새로운 리뷰 내용을 입력하세요:", reviewcomment);
+      if (newReviewComment !== null) {
+        reviewcomment = newReviewComment;
+        reviewElement.querySelector("p:nth-child(2)").innerText = reviewcomment;
+      }
+    });
+
+    // 삭제 버튼 이벤트 처리
+    const deleteButton = reviewElement.querySelector(".delete-btn");
+    deleteButton.addEventListener("click", function () {
+      reviewElement.remove();
+    });
+
+    // 리뷰 추가
+    const reviewSection = document.getElementById("review");
+    reviewSection.appendChild(reviewElement);
+
+    // 리뷰 입력창 초기화
+    document.getElementById("write-comment").value = "";
+    document.getElementById("comment-name").value = "";
+    document.getElementById("comment-pw").value = "";
+  });
 });
 
 /* 해당하는 영화 정보로 업데이트 */
