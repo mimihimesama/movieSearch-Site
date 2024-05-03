@@ -59,18 +59,22 @@ const onClickCard = function (movies) {
   });
 };
 
+let filteredMovies = [];
+
 const findTitle = function (movies) {
   let search = document.getElementById("search-input").value.toLowerCase();
 
   if (search.length <= 0) {
     alert("검색어를 입력해주세요.");
   } else {
-    const filtermovie = movies.filter((movie) => movie.title.toLowerCase().includes(search));
+    filteredMovies = movies.filter((movie) => movie.title.toLowerCase().includes(search));
 
-    if (filtermovie.length === 0) {
+    if (filteredMovies.length === 0) {
       alert("검색어에 해당하는 영화가 없습니다.");
     } else {
-      displayMovies(filtermovie);
+      sortMoviesByRate();
+      setupPagination(filteredMovies);
+      displayMoviesPaginated(filteredMovies, 1, 4);
     }
   }
 };
@@ -96,7 +100,6 @@ loadmovies().then((movies) => {
   setupPagination(movies); // 페이지 로드 시 페이징 처리 함수 호출 추가
 });
 
-let filteredMovies = []; // 전역 변수로 필터링된 영화 목록 저장
 let isAscending = false; // 평점 정렬 상태를 저장하는 전역 변수 (false는 내림차순, true는 오름차순)
 
 window.onload = function () {
@@ -154,7 +157,7 @@ function setupPagination(movies) {
   const totalPages = Math.ceil(totalMovies / itemsPerPage);
 
   const paginationContainer = document.querySelector(".pagination");
-  paginationContainer.innerHTML = '';
+  paginationContainer.innerHTML = "";
 
   for (let i = 1; i <= totalPages; i++) {
     const pageButton = document.createElement("button");
@@ -164,9 +167,6 @@ function setupPagination(movies) {
     });
     paginationContainer.appendChild(pageButton);
   }
-
-  const currentPage = 1;
-  displayMoviesPaginated(movies, currentPage, itemsPerPage);
 }
 
 function displayMoviesPaginated(movies, currentPage, itemsPerPage) {
