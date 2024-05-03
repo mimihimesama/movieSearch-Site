@@ -113,11 +113,7 @@ window.addEventListener("DOMContentLoaded", () => {
         // 사용자가 취소를 누르면 아무것도 하지 않고 함수 종료
         return;
       }
-      if (checkPw === callPw(id)) {
-        editComment();
-      } else {
-        alert("비밀번호가 틀렸습니다");
-      }
+      checkPw == callPw(id) ? deleteComment() : alert("비밀번호가 틀렸습니다");
     });
 
     // 리뷰 추가
