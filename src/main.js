@@ -64,6 +64,8 @@ let filteredMovies = [];
 const findTitle = function (movies) {
   let search = document.getElementById("search-input").value.toLowerCase();
 
+  // 버튼 클릭이나 엔터 키 입력되었을 때 실행
+  // 검색 유효성 검사
   if (search.length <= 0) {
     alert("검색어를 입력해주세요.");
   } else {

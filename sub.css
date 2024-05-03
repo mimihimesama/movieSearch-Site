@@ -105,7 +105,11 @@ button {
   display: inline-block;
   box-shadow: inset 2px 2px 2px 0px #828282, 2px 2px 5px 0px black, 2px 2px 2px 0px black;
   outline: none;
+<<<<<<< HEAD
+  background: silver;
+=======
   background: black;
+>>>>>>> 0e374af22e3762090b7e9ad3931614e6656ca08a
   background: linear-gradient(0deg, black) 0%, black 100%;
   border: none;
 }
@@ -114,7 +118,6 @@ button:hover {
   border-color: silver;
   background: linear-gradient(0deg, #828282 0%, silver 100%);
 }
-
 
 /* 미디어 쿼리 추가 - 화면 너비가 800px 이하일 때 */
 @media only screen and (max-width: 800px) {
@@ -145,7 +148,36 @@ button:hover {
     font-size: 14px;
   }
 }
+<<<<<<< HEAD
+
 #review {
   display: flex;
   flex-direction: column;
 }
+
+.review-item {
+  background-color: black;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-item p {
+  margin: 20px 0;
+  color: white;
+}
+
+.review-item strong {
+  font-weight: bold;
+  color: white;
+  font-size: 20px;
+  background-color: black;
+  border-radius: 10%;
+}
+=======
+#review {
+  display: flex;
+  flex-direction: column;
+}
+>>>>>>> 0e374af22e3762090b7e9ad3931614e6656ca08a
