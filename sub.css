@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap");
-
 body {
   background-color: #000000;
   font-family: "Noto Sans KR", sans-serif;
@@ -14,9 +13,8 @@ header {
   box-sizing: border-box;
 }
 .header-text {
-  color: #ffffff;
+  color: #FFFFFF;
 }
-
 .square {
   display: flex;
   flex-direction: column;
@@ -29,14 +27,13 @@ header {
   margin: auto;
   max-width: 800px;
 }
-
 /* 영화 소개란 스타일 */
 #movie-info {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #EBEBEB;
 }
 .movie-img {
   height: auto;
@@ -72,7 +69,6 @@ header {
   letter-spacing: 0.2px;
   line-height: 1.5;
 }
-
 /* 등록된 리뷰 목록과 리뷰 등록 섹션 스타일 */
 #review,
 .submit {
@@ -109,7 +105,11 @@ button {
   display: inline-block;
   box-shadow: inset 2px 2px 2px 0px #828282, 2px 2px 5px 0px black, 2px 2px 2px 0px black;
   outline: none;
+<<<<<<< HEAD
   background: silver;
+=======
+  background: black;
+>>>>>>> 0e374af22e3762090b7e9ad3931614e6656ca08a
   background: linear-gradient(0deg, black) 0%, black 100%;
   border: none;
 }
@@ -124,36 +124,31 @@ button:hover {
   .header-text {
     font-size: 18px; /* 헤더 텍스트 크기 조정 */
   }
-
   .square {
     width: 90%; /* 정사각형 너비 조정 */
   }
-
   .movie-img {
     max-width: 100%; /* 영화 이미지 최대 너비 조정 */
     padding: 10px; /* 패딩 조정 */
   }
 }
-
 /* 미디어 쿼리 추가 - 화면 너비가 600px 이하일 때 */
 @media only screen and (max-width: 600px) {
   .square {
     flex-direction: column;
     align-items: center;
   }
-
   .movie-info {
     padding: 10px;
   }
-
   .movie-title {
     font-size: 20px;
   }
-
   .movie-desc {
     font-size: 14px;
   }
 }
+<<<<<<< HEAD
 
 #review {
   display: flex;
@@ -180,3 +175,9 @@ button:hover {
   background-color: black;
   border-radius: 10%;
 }
+=======
+#review {
+  display: flex;
+  flex-direction: column;
+}
+>>>>>>> 0e374af22e3762090b7e9ad3931614e6656ca08a
