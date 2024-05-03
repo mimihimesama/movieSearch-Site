@@ -10,18 +10,16 @@ export const loadmovies = async () => {
   };
   const response = await fetch("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
   const data = await response.json();
-  //console.log(data['results']);
   return data["results"];
 };
 
 // HTML UPDATE
-function displaymovies(movies) {
+function displayMovies(movies) {
   const container = document.querySelector(".movie-wrap");
   container.innerHTML = movies.map((movie) => createMovieCards(movie)).join("");
   onClickCard(movies);
 }
 
-// 영화 데이터 로컬에 저장 -> sub.js에서 해당 데이터를 로드하기 위해서
 const movieData = function (movies) {
   if (localStorage.length === 0) {
     movies.forEach((movie) => {
@@ -31,7 +29,6 @@ const movieData = function (movies) {
   }
 };
 
-// HTML list 만들기
 function createMovieCards(movie) {
   let temp_html = `
       <div class="movie-card" id="${movie.id}">
@@ -40,6 +37,9 @@ function createMovieCards(movie) {
         class="movie_poster"
       />
         <h3 class="movie_title">${movie.title}</h3>
+        <p class="movie_overview">
+          ${movie.overview}
+        </p>
         <p class="movie_rate">⭐${movie.vote_average}
           <span class="movie_vote">(${movie.vote_count})</span>
         </p>
@@ -48,7 +48,6 @@ function createMovieCards(movie) {
   return temp_html;
 }
 
-// 클릭 이벤트 id에 해당하는 상세 페이지로 이동하기
 const onClickCard = function (movies) {
   const cards = document.querySelectorAll(".movie-card");
   let movieId;
@@ -60,13 +59,9 @@ const onClickCard = function (movies) {
   });
 };
 
-// 검색 기능 : 대소문자 관계없이, enter입력해도 검색 클릭과 동일한 기능
 const findTitle = function (movies) {
-  // input값 가져와서 title과 비교하기
   let search = document.getElementById("search-input").value.toLowerCase();
 
-  // 버튼 클릭이나 엔터 키 입력되었을 때 실행
-  // 검색 유효성 검사
   if (search.length <= 0) {
     alert("검색어를 입력해주세요.");
   } else {
@@ -75,45 +70,43 @@ const findTitle = function (movies) {
     if (filtermovie.length === 0) {
       alert("검색어에 해당하는 영화가 없습니다.");
     } else {
-      displaymovies(filtermovie);
+      displayMovies(filtermovie);
     }
   }
 };
 
-// 이벤트 관리
 function setEventListeners(movies) {
   const form = document.querySelector(".search");
-  // 검색창에 입력 수행 시
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     findTitle(movies);
   });
 }
 
-window.displayMovies = displaymovies;
+window.displayMovies = displayMovies;
 window.movieData = movieData;
 
 // main
 loadmovies().then((movies) => {
   movieData(movies);
-  displaymovies(movies);
+  displayMovies(movies);
   setEventListeners(movies);
   orderByCountry(movies);
   orderByRate(movies);
+  setupPagination(movies); // 페이지 로드 시 페이징 처리 함수 호출 추가
 });
 
 let filteredMovies = []; // 전역 변수로 필터링된 영화 목록 저장
 let isAscending = false; // 평점 정렬 상태를 저장하는 전역 변수 (false는 내림차순, true는 오름차순)
 
-// 페이지 로드 시 모든 영화를 필터링된 목록에 초기 설정
 window.onload = function () {
   loadmovies().then((movies) => {
     filteredMovies = movies;
     displayMovies(filteredMovies); // 초기 영화 목록을 화면에 표시
+    setupPagination(movies); // 페이징 처리 함수 호출 추가
   });
 };
 
-// 나라별 정렬
 function orderByCountry(movies) {
   const dropdown = document.getElementById("country-filter");
 
@@ -130,27 +123,55 @@ function orderByCountry(movies) {
       return true;
     });
 
-    sortMoviesByRate(); // 국가 변경 후 현재 평점 정렬 상태를 유지하여 정렬
-    displayMovies(filteredMovies); // 필터링된 목록을 디스플레이
+    sortMoviesByRate();
+    setupPagination(filteredMovies);
+    displayMoviesPaginated(filteredMovies, 1, 4);
   });
 }
 
-// 평점에 따른 정렬
-function orderByRate() {
+function orderByRate(movies) {
   const element = document.getElementById("filter-rate");
   element.addEventListener("click", () => {
-    isAscending = !isAscending; // 정렬 상태 토글
+    isAscending = !isAscending;
     sortMoviesByRate();
-    displayMovies(filteredMovies); // 정렬된 필터링된 목록을 디스플레이
+    setupPagination(filteredMovies);
+    displayMoviesPaginated(filteredMovies, 1, 4);
     toggleArrow(element);
   });
 }
 
-// 평점 정렬 함수
 function sortMoviesByRate() {
   filteredMovies.sort((a, b) => (isAscending ? a.vote_average - b.vote_average : b.vote_average - a.vote_average));
 }
 
 function toggleArrow(element) {
   element.textContent = element.textContent.slice(0, -1) + (element.textContent.endsWith("▲") ? "▼" : "▲");
+}
+
+function setupPagination(movies) {
+  const itemsPerPage = 4;
+  const totalMovies = movies.length;
+  const totalPages = Math.ceil(totalMovies / itemsPerPage);
+
+  const paginationContainer = document.querySelector(".pagination");
+  paginationContainer.innerHTML = '';
+
+  for (let i = 1; i <= totalPages; i++) {
+    const pageButton = document.createElement("button");
+    pageButton.textContent = i;
+    pageButton.addEventListener("click", () => {
+      displayMoviesPaginated(movies, i, itemsPerPage);
+    });
+    paginationContainer.appendChild(pageButton);
+  }
+
+  const currentPage = 1;
+  displayMoviesPaginated(movies, currentPage, itemsPerPage);
+}
+
+function displayMoviesPaginated(movies, currentPage, itemsPerPage) {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, movies.length);
+  const moviesToDisplay = movies.slice(startIndex, endIndex);
+  displayMovies(moviesToDisplay);
 }
