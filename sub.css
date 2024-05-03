@@ -115,17 +115,18 @@ button:hover {
   background: linear-gradient(0deg, #828282 0%, silver 100%);
 }
 
+
 /* 미디어 쿼리 추가 - 화면 너비가 800px 이하일 때 */
 @media only screen and (max-width: 800px) {
   .header-text {
-    font-size: 18px; 
+    font-size: 18px; /* 헤더 텍스트 크기 조정 */
   }
   .square {
-    width: 90%; 
+    width: 90%; /* 정사각형 너비 조정 */
   }
   .movie-img {
-    max-width: 100%; 
-    padding: 10px; 
+    max-width: 100%; /* 영화 이미지 최대 너비 조정 */
+    padding: 10px; /* 패딩 조정 */
   }
 }
 /* 미디어 쿼리 추가 - 화면 너비가 600px 이하일 때 */

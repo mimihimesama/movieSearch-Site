@@ -13,6 +13,56 @@
 a {
   text-decoration: none;
 }
+
+/* 내비게이션바 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 8px 12px;
+}
+
+/* 내비게이션바 이미지 */
+.nav-img {
+  width: 100px;
+  height: 100px;
+  margin-left: 20px;
+}
+
+.navbar-menu {
+  width: 500px;
+  margin-left: 80px;
+  margin-right: auto;
+}
+.navbar-menu li {
+  display: inline-block;
+  margin-right: 20px;
+}
+.navbar-menu li:hover {
+  background-color: #000;
+  border-radius: 4px;
+}
+/* 내비게이션바 반응형 ui  */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 24px;
+  }
+
+  .navbar-menu {
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+  }
+
+  .navbar-menu li {
+    width: 50%;
+    text-align: center;
+  }
+}
+
 button {
   border: 0;
   outline: 0;
@@ -73,12 +123,37 @@ header {
   border-radius: 3px;
 }
 
+#filter-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 50px;
+}
+#country-filter {
+  order: 2;
+  flex-grow: 1;
+  max-width: 200px;
+  padding: 10px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+#filter-menu button {
+  width: 80px;
+  height: 30px;
+  margin-left: 20px;
+  border-radius: 15px;
+}
+
 .movie-wrap {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   width: 80%;
   margin: 20px auto;
-  padding-top: 30px;
   font-family: "Nanum Myeongjo", serif;
 }
 
@@ -95,6 +170,12 @@ header {
 
   background-color: #fff;
   color: black;
+}
+
+.movie-card:hover {
+  transform: scale(0.9);
+  border-radius: 50px;
+  cursor: pointer;
 }
 
 .movie-card::after {
@@ -122,6 +203,9 @@ header {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 0.2px;
+  font-family: "Anton", sans-serif;
+  font-weight: bold;
+  font-style: normal;
 }
 
 .movie_overview {
@@ -153,6 +237,32 @@ header {
   color: #999;
 }
 
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 30px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  background-color: #444;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.pagination button:hover {
+  background-color: #121314;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: default;
+}
 
 @media only screen and (max-width: 800px) {
   /* 화면이 800px 이하일 때의 스타일 */

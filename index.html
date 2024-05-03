@@ -5,11 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie</title>
+    <!-- 외부 css 파일 연결 -->
     <link rel="stylesheet" href="style.css" />
+    <!-- 외부 js 파일 연결-->
     <script src="src/main.js" type="module"></script>
   </head>
 
   <body>
+    <!-- 상단 바 -->
+    <nav class="navbar">
+            <div class="navbar-logo">
+                <a href="http://127.0.0.1:5502/index.html">
+                  <img class="nav-img" src = "./resource/chi.jpg" alt="Home">
+                </a>
+            </div>
+
+            <ul class="navbar-menu">
+                <li><a href="https://www.netflix.com/kr/"><img src="resource/netflix.png" alt="넷플릭스"width="100"></a></li>
+                <li><a href="https://www.wavve.com/"><img src="resource/wavve.png" alt="웨이브"width="100"></a></li>
+                <li><a href="https://www.tving.com/onboarding"><img src="resource/tving.png" alt="티빙"width="100"></a></li>
+            </ul>
+        </nav>
+</body>
     <!-- Logo -->
     <header></header>
     <section class="title">
@@ -21,7 +38,25 @@
         <button type="submit" id="search-btn">검색</button>
       </form>
     </section>
+    <div id="filter-menu">
+      <select id="country-filter">
+        <option value="all">All</option>
+        <option value="USA">USA</option>
+        <option value="Japan">Japan</option>
+        <option value="Korea">Korea</option>
+        <option value="Others">Others</option>
+      </select>
+      <div class="filter-btns">
+        <button class="filter-rate" id="filter-rate">평점▼</button>
+      </div>
+    </div>
     <!-- card list -->
     <section class="movie-wrap"></section>
+
+    <!-- 페이지네이션 위치  -->
+<div class="pagination">
+  
+</div>
+
   </body>
 </html>
