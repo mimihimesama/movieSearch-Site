@@ -167,6 +167,8 @@ function setupPagination(movies) {
     });
     paginationContainer.appendChild(pageButton);
   }
+  const currentPage = 1;
+  displayMoviesPaginated(movies, currentPage, itemsPerPage);
 }
 
 function displayMoviesPaginated(movies, currentPage, itemsPerPage) {
