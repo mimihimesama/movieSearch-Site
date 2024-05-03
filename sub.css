@@ -103,8 +103,10 @@ button {
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
+  box-shadow: inset 2px 2px 2px 0px #828282, 2px 2px 5px 0px black, 2px 2px 2px 0px black;
   outline: none;
   background: silver;
+  background: linear-gradient(0deg, black) 0%, black 100%;
   border: none;
 }
 button:hover {
