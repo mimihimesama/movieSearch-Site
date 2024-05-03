@@ -129,12 +129,13 @@ function orderByCountry(movies) {
   });
 }
 
-function orderByRate() {
+function orderByRate(movies) {
   const element = document.getElementById("filter-rate");
   element.addEventListener("click", () => {
     isAscending = !isAscending;
     sortMoviesByRate();
-    displayMovies(filteredMovies);
+    setupPagination(filteredMovies);
+    displayMoviesPaginated(filteredMovies, 1, 4);
     toggleArrow(element);
   });
 }
