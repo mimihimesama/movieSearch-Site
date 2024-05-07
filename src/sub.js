@@ -143,7 +143,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
     reviewElement.innerHTML = `
       <p><strong>${name}</strong></p>
-      <hr>
       <p>${reviewcomment}</p>
       <button class="edit-btn">수정</button> 
       <button class="delete-btn">삭제</button> 
