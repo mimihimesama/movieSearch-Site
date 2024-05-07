@@ -98,15 +98,12 @@ button {
   padding: 10px 25px;
   font-family: "Lato", sans-serif;
   font-weight: 500;
-  background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-  box-shadow: inset 2px 2px 2px 0px #828282, 2px 2px 5px 0px black, 2px 2px 2px 0px black;
   outline: none;
   background: silver;
-  background: linear-gradient(0deg, black) 0%, black 100%;
   border: none;
 }
 button:hover {
@@ -151,22 +148,18 @@ button:hover {
 }
 
 .review-item {
-  background-color: black;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .review-item p {
   margin: 20px 0;
-  color: white;
 }
 
 .review-item strong {
   font-weight: bold;
-  color: white;
   font-size: 20px;
-  background-color: black;
-  border-radius: 10%;
 }
