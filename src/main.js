@@ -151,6 +151,7 @@ function toggleArrow(element) {
   element.textContent = element.textContent.slice(0, -1) + (element.textContent.endsWith("▲") ? "▼" : "▲");
 }
 
+// 페이징 설정 함수
 function setupPagination(movies) {
   const itemsPerPage = 4;
   const totalMovies = movies.length;
@@ -159,6 +160,8 @@ function setupPagination(movies) {
   const paginationContainer = document.querySelector(".pagination");
   paginationContainer.innerHTML = "";
 
+  
+  // 각 페이지 버튼 생성
   for (let i = 1; i <= totalPages; i++) {
     const pageButton = document.createElement("button");
     pageButton.textContent = i;
@@ -167,8 +170,10 @@ function setupPagination(movies) {
     });
     paginationContainer.appendChild(pageButton);
   }
+  const currentPage = 1;
+  displayMoviesPaginated(movies, currentPage, itemsPerPage);
 }
-
+// 페이지별 영화 표시 함수
 function displayMoviesPaginated(movies, currentPage, itemsPerPage) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, movies.length);
