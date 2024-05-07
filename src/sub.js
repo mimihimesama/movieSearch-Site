@@ -48,7 +48,6 @@ window.addEventListener("DOMContentLoaded", () => {
     // 리뷰 내용 수정 및 삭제 버튼 추가
     reviewElement.innerHTML = `
       <p><strong>${name}</strong></p>
-      <hr>
       <p>${reviewcomment}</p>
       <button class="edit-btn">수정</button> 
       <button class="delete-btn">삭제</button> 
