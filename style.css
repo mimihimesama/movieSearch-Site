@@ -43,22 +43,22 @@ a {
   background-color: #000;
   border-radius: 4px;
 }
-/* 내비게이션바 반응형 ui  */
+/* 내비게이션바 반응형 ui */
 @media screen and (max-width: 768px) {
   .navbar {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     padding: 8px 24px;
   }
 
   .navbar-menu {
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
   }
 
   .navbar-menu li {
-    width: 50%;
+    width: auto;
     text-align: center;
   }
 }
