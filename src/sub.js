@@ -120,14 +120,23 @@ function removeReviewFromLocalStorage(reviewId) {
 // 로컬 스토리지에서 리뷰 로드 함수
 function loadReviewsFromLocalStorage() {
   const movieId = urlParams.get("id"); // 현재 페이지의 영화 ID 가져오기
+  let reviews = []; // 리뷰들을 저장할 배열 초기화
+
   Object.keys(localStorage).forEach((key) => {
     if (key.startsWith("review_")) {
       const review = JSON.parse(localStorage.getItem(key));
-      if (review.movieId === movieId)
-        // 현재 영화 ID와 일치하는지 확인
-        addReviewToPage(review);
+      // 현재 영화 ID와 일치하는 리뷰만 배열에 추가
+      if (review.movieId === movieId) {
+        reviews.push(review);
+      }
     }
   });
+
+  // 리뷰들을 id 기반으로 오름차순 정렬 (id가 낮은 것이 먼저 생성된 리뷰)
+  reviews.sort((a, b) => a.id - b.id);
+
+  // 정렬된 리뷰들을 페이지에 추가
+  reviews.forEach((review) => addReviewToPage(review));
 }
 
 // 리뷰 입력창 빈칸 초기화
