@@ -18,8 +18,11 @@ function submitReview() {
 
   if (!validateReviewInputs(reviewComment, name, pw)) return; // 입력값 유효성 검사
 
+  // 현재 영화 ID 가져오기
+  const movieId = urlParams.get("id");
+
   // 리뷰 객체 생성
-  const review = { id: Date.now(), name, reviewComment, pw };
+  const review = { id: Date.now(), name, reviewComment, pw, movieId }; // movieId 추가
   addReviewToPage(review);
   saveReviewToLocalStorage(review);
   resetReviewForm();
@@ -116,10 +119,13 @@ function removeReviewFromLocalStorage(reviewId) {
 
 // 로컬 스토리지에서 리뷰 로드 함수
 function loadReviewsFromLocalStorage() {
+  const movieId = urlParams.get("id"); // 현재 페이지의 영화 ID 가져오기
   Object.keys(localStorage).forEach((key) => {
     if (key.startsWith("review_")) {
       const review = JSON.parse(localStorage.getItem(key));
-      addReviewToPage(review);
+      if (review.movieId === movieId)
+        // 현재 영화 ID와 일치하는지 확인
+        addReviewToPage(review);
     }
   });
 }
