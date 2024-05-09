@@ -147,9 +147,9 @@ function resetReviewForm() {
 }
 
 /* 해당하는 영화 정보로 업데이트 */
-const displayDetail = (data) => {
+const displayDetail = (movie) => {
   const containerDetail = document.querySelector("#movie-info");
-  containerDetail.innerHTML = createMovieDetail(data.movie);
+  containerDetail.innerHTML = createMovieDetail(movie);
 };
 
 /* detail 페이지를 구성할 HTML */

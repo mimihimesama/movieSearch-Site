@@ -25,7 +25,7 @@ const movieData = function (movies) {
   if (localStorage.length === 0) {
     movies.forEach((movie) => {
       // 각 영화에 대해 JSON 형태로 변환하여 로컬 스토리지에 저장
-      const mData = JSON.stringify({ movie });
+      const mData = JSON.stringify(movie);
       localStorage.setItem(movie.id, mData);
     });
   }
