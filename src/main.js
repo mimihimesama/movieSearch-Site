@@ -21,11 +21,14 @@ function displayMovies(movies) {
 }
 
 const movieData = function (movies) {
-  movies.forEach((movie) => {
-    // 각 영화에 대해 JSON 형태로 변환하여 로컬 스토리지에 저장
-    const mData = JSON.stringify({ movie });
-    localStorage.setItem(movie.id, mData);
-  });
+  // 로컬 스토리지에 영화 데이터 저장하는 함수
+  if (localStorage.length === 0) {
+    movies.forEach((movie) => {
+      // 각 영화에 대해 JSON 형태로 변환하여 로컬 스토리지에 저장
+      const mData = JSON.stringify({ movie });
+      localStorage.setItem(movie.id, mData);
+    });
+  }
 };
 
 // 영화 카드 생성 함수
@@ -56,7 +59,7 @@ const onClickCard = function (movies) {
     // 각 카드에 클릭 이벤트 리스너 추가
     card.addEventListener("click", function () {
       movieId = this.getAttribute("id"); // 클릭된 카드의 영화 ID 가져오기
-      window.location.href = `/movieSearch-Site/sub.html?id=${movieId}`; // 페이지 이동
+      window.location.href = `sub.html?id=${movieId}`; // 페이지 이동
     });
   });
 };
