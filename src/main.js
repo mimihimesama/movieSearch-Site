@@ -21,14 +21,11 @@ function displayMovies(movies) {
 }
 
 const movieData = function (movies) {
-  // 로컬 스토리지에 영화 데이터 저장하는 함수
-  if (localStorage.length === 0) {
-    movies.forEach((movie) => {
-      // 각 영화에 대해 JSON 형태로 변환하여 로컬 스토리지에 저장
-      const mData = JSON.stringify({ movie });
-      localStorage.setItem(movie.id, mData);
-    });
-  }
+  movies.forEach((movie) => {
+    // 각 영화에 대해 JSON 형태로 변환하여 로컬 스토리지에 저장
+    const mData = JSON.stringify({ movie });
+    localStorage.setItem(movie.id, mData);
+  });
 };
 
 // 영화 카드 생성 함수
