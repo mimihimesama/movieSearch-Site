@@ -59,7 +59,7 @@ const onClickCard = function (movies) {
     // 각 카드에 클릭 이벤트 리스너 추가
     card.addEventListener("click", function () {
       movieId = this.getAttribute("id"); // 클릭된 카드의 영화 ID 가져오기
-      window.location.href = `http://127.0.0.1:5502/sub.html?id=${movieId}`; // 페이지 이동
+      window.location.href = `/movieSearch-Site/sub.html?id=${movieId}`; // 페이지 이동
     });
   });
 };
